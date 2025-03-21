@@ -13,12 +13,12 @@
 //==============================================================================
 /**
  */
-class NewProjectAudioProcessor : public juce::AudioProcessor
+class IrplayerAudioProcessor : public juce::AudioProcessor, public juce::AudioProcessorValueTreeState::Listener
 {
 public:
     //==============================================================================
-    NewProjectAudioProcessor();
-    ~NewProjectAudioProcessor() override;
+    IrplayerAudioProcessor();
+    ~IrplayerAudioProcessor() override;
 
     //==============================================================================
     void prepareToPlay(double sampleRate, int samplesPerBlock) override;
@@ -53,7 +53,15 @@ public:
     void getStateInformation(juce::MemoryBlock &destData) override;
     void setStateInformation(const void *data, int sizeInBytes) override;
 
+    juce::AudioProcessorValueTreeState parameters;
+
 private:
+    juce::dsp::Convolution convolution;
+    float dryWetMix = 1.0f;
+    void parameterChanged(const juce::String &parameterID, float newValue) override;
+    juce::AudioBuffer<float> dryBuffer;
+    bool irLoaded = false;
+
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(NewProjectAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(IrplayerAudioProcessor)
 };

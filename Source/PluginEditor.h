@@ -14,20 +14,22 @@
 //==============================================================================
 /**
  */
-class NewProjectAudioProcessorEditor : public juce::AudioProcessorEditor
+class IrplayerAudioProcessorEditor : public juce::AudioProcessorEditor
 {
 public:
-    NewProjectAudioProcessorEditor(NewProjectAudioProcessor &);
-    ~NewProjectAudioProcessorEditor() override;
+    IrplayerAudioProcessorEditor(IrplayerAudioProcessor &);
+    ~IrplayerAudioProcessorEditor() override;
 
     //==============================================================================
     void paint(juce::Graphics &) override;
     void resized() override;
 
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
-    NewProjectAudioProcessor &audioProcessor;
+    juce::Slider dryWetSlider;
+    juce::Label dryWetLabel{"Dry/Wet Mix"};
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> dryWetAttachment;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(NewProjectAudioProcessorEditor)
+    IrplayerAudioProcessor &audioProcessor;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(IrplayerAudioProcessorEditor)
 };
